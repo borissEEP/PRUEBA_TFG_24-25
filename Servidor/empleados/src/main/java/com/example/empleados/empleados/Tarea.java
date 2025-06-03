@@ -29,8 +29,6 @@ public class Tarea {
 		this.empleado = empleado;
 	}
 
-	// Getters y Setters
-
 	public Long getId() {
 		return id;
 	}

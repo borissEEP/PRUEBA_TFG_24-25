@@ -18,14 +18,14 @@ public class TareaControllers {
     @Autowired
     private EmpleadoRepository empleadoRepo;
 
-    // Asignar tarea a un empleado
+    // Asignamos la tarea a un empleado
     @PostMapping("/asignar")
     public ResponseEntity<Tarea> asignarTarea(@RequestParam Long empleadoId, @RequestBody Tarea tarea) {
         return empleadoRepo.findById(empleadoId)
             .map(empleado -> {
                 tarea.setEmpleado(empleado);
                 tarea.setFechaAsignacion(LocalDate.now());
-                tarea.setEstado("Pendiente");
+                tarea.setEstado("Fecha asignada: ");
                 Tarea guardada = tareaRepo.save(tarea);
                 return ResponseEntity.ok(guardada);
             })
@@ -33,13 +33,13 @@ public class TareaControllers {
     }
 
 
-    // Obtener tareas de un empleado
+    // Obtenemos las tareas asignadas de un empleado
     @GetMapping("/empleado/{empleadoId}")
     public List<Tarea> obtenerTareasPorEmpleado(@PathVariable Long empleadoId) {
         return tareaRepo.findByEmpleadoId(empleadoId);
     }
     
-    // Borrar tarea
+    // Borramos o terminamos las tareas del empleado al que asignamos
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarTarea(@PathVariable Long id) {
         if (tareaRepo.existsById(id)) {
